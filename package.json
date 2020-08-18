@@ -1,0 +1,49 @@
+{
+  "name": "eslint-plugin-import-sort",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rm -rf lib/",
+    "build": "yarn clean && tsc",
+    "test": "jest",
+    "prepublish": "yarn clean && yarn test && yarn build"
+  },
+  "files": [
+    "README.md",
+    "package.json",
+    "lib"
+  ],
+  "author": "kairome",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "^4.16.6",
+    "@types/lodash": "^4.14.155",
+    "@types/node": "^11.10.4",
+    "@typescript-eslint/parser": "^1.4.2",
+    "eslint": "^5.15.0",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.15",
+    "ts-jest": "^23.10.4",
+    "typescript": "~3.4.0"
+  },
+  "peerDependencies": {
+    "eslint": "^4.0.0 || ^5.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(tests/.*\\.test)\\.ts$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "\\.d\\.ts$",
+      "lib/.*"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "json"
+    ]
+  }
+}
