@@ -6,8 +6,12 @@ type GroupedImports = {
   [k: string]: ImportDeclaration[],
 };
 
+interface RuleOption {
+  path: string,
+}
+
 type RuleOptions = {
-  [k: string]: string[],
+  [k: string]: RuleOption[],
 };
 
 export const ruleMessages = {
@@ -29,6 +33,14 @@ const rule: Rule.RuleModule = {
         patternProperties: {
           '^.*$': {
             type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                path: {
+                  type: 'string',
+                },
+              },
+            },
           }
         },
         additionalProperties: false,
@@ -39,12 +51,12 @@ const rule: Rule.RuleModule = {
   create: (context) => {
     return {
       Program: (node) => {
-        const options = context.options[0];
+        const options: RuleOptions = context.options[0];
         if (node.type === 'Program') {
           const importNodes = (_.filter(node.body, n => n.type === 'ImportDeclaration') as ImportDeclaration[]);
 
           // check if there are imports from config
-          const optionValues = _.flatMap(options, v => v);
+          const optionValues = _.flatMap(options, values => _.map(values, v => v.path));
           const hasConfigImports = _.some(importNodes, (node) => {
             return _.some(optionValues, (v: string) => _.includes((node.source.value as string), v));
           });
@@ -264,8 +276,9 @@ const getImportsByGroup = (
   options: RuleOptions, optionValues: string[], importNodes: ImportDeclaration[]
 ): GroupedImports => {
   return _.reduce(options, (acc, option, key) => {
+    const optionPaths = _.map(option, o => o.path);
     const filteredImports = _.filter(importNodes, (node) => {
-      return _.some(option, (v: string) => {
+      return _.some(optionPaths, (v) => {
 
         // check if there's a more specific path in option values
         const filteredOptions = _.filter(optionValues, optionValue => optionValue !== v);

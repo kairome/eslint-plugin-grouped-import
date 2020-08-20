@@ -6,13 +6,13 @@ const tester = new RuleTester({ parserOptions: { ecmaVersion: 2015, sourceType: 
 
 const ruleOptions = [
   {
-    'utils': ['utils'],
-    'validations': ['utils/validations'],
-    'api, selectors': ['api/', 'selectors/'],
-    'css': ['.css'],
-    'images': ['.png', '.jpeg'],
-    'components':['components'],
-    'types': ['types'],
+    'utils': [{ path: 'utils' }],
+    'validations': [{ path: 'utils/validations' }],
+    'api, selectors': [{ path: 'api/' }, { path: 'selectors/' }],
+    'css': [{ path: '.css' }],
+    'images': [{ path: '.png' }, { path: '.jpeg' }],
+    'components': [{ path: 'components' }],
+    'types': [{ path: 'types' }],
   }
 ];
 
