@@ -273,20 +273,20 @@ const rule: Rule.RuleModule = {
 };
 
 const getImportsByGroup = (
-  options: RuleOptions, optionValues: string[], importNodes: ImportDeclaration[]
+  options: RuleOptions, allOptionsPaths: string[], importNodes: ImportDeclaration[]
 ): GroupedImports => {
   return _.reduce(options, (acc, option, key) => {
-    const optionPaths = _.map(option, o => o.path);
+    const groupPaths = _.map(option, o => o.path);
     const filteredImports = _.filter(importNodes, (node) => {
-      return _.some(optionPaths, (v) => {
+      return _.some(groupPaths, (groupPath) => {
 
         // check if there's a more specific path in option values
-        const filteredOptions = _.filter(optionValues, optionValue => optionValue !== v);
-        const similarOptionValue = _.find(filteredOptions, filtered => _.includes(filtered, v));
+        const similarOptionValue =
+          _.find(allOptionsPaths, optionValue => _.includes(optionValue, groupPath) && optionValue !== groupPath);
         const importValue = (node.source.value as string);
-        const regularImport = _.includes(importValue, v);
+        const regularImport = _.includes(importValue, groupPath);
         const similarImport = _.includes(importValue, similarOptionValue) ||
-          (/\.\w/gi.test(importValue) && !/\.\w/gi.test(v));
+          (/\.\w/gi.test(importValue) && !/\.\w/gi.test(groupPath));
 
         return regularImport && !similarImport;
       });

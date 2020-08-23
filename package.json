@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-import-sort",
+  "name": "eslint-plugin-grouped-imports",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
