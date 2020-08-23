@@ -1,11 +1,11 @@
-# eslint-plugin-grouped-imports
+# eslint-plugin-grouped-import
 
 Organize your imports into meaningful groups. Each group is preceded by a comment specified in the rule options.
 
 ## Rule setup
 
-1. Add `grouped-imports` to your plugins array in eslint config file.
-2. Add rule `grouped-imports/group` to the list of your rules.
+1. Add `grouped-import` to your plugins array in eslint config file.
+2. Add rule `grouped-import/group` to the list of your rules.
 
 ## Rule schema
 
