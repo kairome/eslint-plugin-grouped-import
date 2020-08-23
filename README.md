@@ -4,7 +4,8 @@ Organize your imports into meaningful groups. Each group is preceded by a commen
 
 ## Rule setup
 
-1. Add `grouped-import` to your plugins array in eslint config file.
+1. Install the plugin: `yarn add eslint-plugin-grouped-import`
+2. Add `grouped-import` to your plugins array in eslint config file.
 2. Add rule `grouped-import/group` to the list of your rules.
 
 ## Rule schema
@@ -39,7 +40,7 @@ Example of a config file
 Each path from the rule options is checked against the value of an import node to determine whether the node belongs in the group.
 However, the rule checks if there exists a similar, more specific path in options that matches that path.
 If so, the import node will be sorted into the group with the more specific path.
-**Note**: imports with extensions, i.e. '.css', will **ALWAYS** take precedence.
+**Note**: imports with extensions, i.e. `.css`, will **ALWAYS** take precedence.
 
 The rule checks for 7 specific things which are described in the *Rule examples* section
 
