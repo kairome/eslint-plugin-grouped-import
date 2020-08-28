@@ -68,11 +68,14 @@ const rule: Rule.RuleModule = {
           const importComments = node.comments ? node.comments : [];
           const importsByGroup = getImportsByGroup(options, optionValues, importNodes);
 
+          const commentKeys = _.keys(options);
           const sourceCode = context.getSourceCode();
           const lines = sourceCode.lines;
           const lastImportNode = importNodes[importNodes.length - 1];
           const lastImportNodeLine = (lastImportNode.loc as SourceLocation).end.line;
-          const lastCommentNode = importComments[importComments.length - 1];
+          const reversedComments = [...importComments].reverse();
+          const lastCommentNode = _.find(reversedComments, c => _.includes(commentKeys, c.value.trim()));
+
           const lastCommentNodeLine = lastCommentNode ? (lastCommentNode.loc as SourceLocation).end.line : 0;
           const lastImportNodeRangeEnd = (lastImportNode.range as number[])[1];
 
@@ -181,7 +184,7 @@ const rule: Rule.RuleModule = {
                   const newLines =
                     getNewCodeLines(allGroupImportTexts, commentLine < 0 ? 0 : commentLine, groupImportTextRanges);
 
-                  const commentEnd = (lastCommentNode.range as number[])[1];
+                  const commentEnd = lastCommentNode ? (lastCommentNode.range as number[])[1] : 0;
                   const insertAt = lastImportNodeRangeEnd > commentEnd ? lastImportNodeRangeEnd : commentEnd;
                   const fixes: any = [
                     fixer.removeRange([0, insertAt]),
@@ -225,8 +228,6 @@ const rule: Rule.RuleModule = {
 
             const importsWithGroup = _.flatMap(importsByGroup, g => g);
             const importsWithoutGroup = _.xor(importNodes, importsWithGroup);
-
-            const commentKeys = _.keys(options);
 
             // find first group comment, don't count other comments
             const firstGroupImportComment = _.find(importComments, c => _.includes(commentKeys, c.value.trim()));

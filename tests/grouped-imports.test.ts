@@ -572,6 +572,61 @@ import { check } from 'utils';
 import { validateDate } from 'utils/validations';
       `,
       },
+      {
+        code:
+`import React from 'react';
+import SomeField from './fields/SomeField';
+import AnotherField from './fields/AnotherField';
+
+// components
+import { SelectField } from 'components/SelectField';
+import Attachments from 'components/Attachments';
+
+import { Model } from 'ui/model';
+
+// types
+import { FieldProps } from 'types/field';
+import {
+  Schema,
+  // SchemaField,
+  // SchemaPayload,
+  CustomField,
+} from 'types/schema';
+
+// import
+// Model
+// OtherModel
+// FieldModel
+// } from 'types/model';
+      `,
+        options: ruleOptions,
+        errors: [{ message: messages.importsWithoutGroup }],
+        output:
+`import React from 'react';
+import SomeField from './fields/SomeField';
+import AnotherField from './fields/AnotherField';
+import { Model } from 'ui/model';
+
+// components
+import { SelectField } from 'components/SelectField';
+import Attachments from 'components/Attachments';
+
+// types
+import { FieldProps } from 'types/field';
+import {
+  Schema,
+  // SchemaField,
+  // SchemaPayload,
+  CustomField,
+} from 'types/schema';
+
+// import
+// Model
+// OtherModel
+// FieldModel
+// } from 'types/model';
+      `,
+      },
     ],
   });
 };
