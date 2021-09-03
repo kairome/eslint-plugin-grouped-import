@@ -749,7 +749,7 @@ import s from 'components/Comp.css';
 `
 // css
 import 'some.css';
-// eslint-disable-next-line some-rule
+// eslint-disable some-rule
 import s from './Dashboard.css';
       `,
         options: ruleOptions,
