@@ -290,7 +290,7 @@ const getImportsByGroup = (
           (/\.\w/gi.test(importValue) && !/\.\w/gi.test(groupPath));
 
         return regularImport && !similarImport;
-      });
+      }) && !(allOptionsPaths.includes(node.source.value as string) && !groupPaths.includes(node.source.value as string));
     });
 
     return {

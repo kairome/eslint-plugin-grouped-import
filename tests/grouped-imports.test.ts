@@ -8,6 +8,7 @@ const ruleOptions = [
   {
     'utils': [{ path: 'utils' }],
     'validations': [{ path: 'utils/validations' }],
+    'parser': [{ path: 'utils/parser' }],
     'api, selectors': [{ path: 'api/' }, { path: 'selectors/' }],
     'css': [{ path: '.css' }],
     'images': [{ path: '.png' }, { path: '.jpeg' }],
@@ -223,6 +224,9 @@ import select from 'selectors/main';
 // validations
 import { validateDate } from 'utils/validations';
 
+// dates
+import { parseDate } from 'utils/parser';
+
 // utils
 import u from 'utils';
 
@@ -236,6 +240,9 @@ import { validateEmpty } from 'utils/validations';
 // validations
 import { validateDate } from 'utils/validations';
 import { validateEmpty } from 'utils/validations';
+
+// dates
+import { parseDate } from 'utils/parser';
 
 // utils
 import u from 'utils';
