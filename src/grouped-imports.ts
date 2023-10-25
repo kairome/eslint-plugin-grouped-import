@@ -279,7 +279,9 @@ const getImportsByGroup = (
   return _.reduce(options, (acc, option, key) => {
     const groupPaths = _.map(option, o => o.path);
     const filteredImports = _.filter(importNodes, (node) => {
-      return _.some(groupPaths, (groupPath) => {
+      const isCurrentNodeInGroupAndPath = (_.includes(allOptionsPaths, node.source.value) && !_.includes(groupPaths, node.source.value));
+
+      return !isCurrentNodeInGroupAndPath && _.some(groupPaths, (groupPath) => {
 
         // check if there's a more specific path in option values
         const similarOptionValue =
@@ -290,7 +292,7 @@ const getImportsByGroup = (
           (/\.\w/gi.test(importValue) && !/\.\w/gi.test(groupPath));
 
         return regularImport && !similarImport;
-      }) && !(allOptionsPaths.includes(node.source.value as string) && !groupPaths.includes(node.source.value as string));
+      });
     });
 
     return {
