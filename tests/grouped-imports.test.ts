@@ -224,9 +224,6 @@ import select from 'selectors/main';
 // validations
 import { validateDate } from 'utils/validations';
 
-// dates
-import { parseDate } from 'utils/parser';
-
 // utils
 import u from 'utils';
 
@@ -240,9 +237,6 @@ import { validateEmpty } from 'utils/validations';
 // validations
 import { validateDate } from 'utils/validations';
 import { validateEmpty } from 'utils/validations';
-
-// dates
-import { parseDate } from 'utils/parser';
 
 // utils
 import u from 'utils';
@@ -758,6 +752,20 @@ import s from 'components/Comp.css';
 import 'some.css';
 // eslint-disable some-rule
 import s from './Dashboard.css';
+      `,
+        options: ruleOptions,
+      },
+      {
+        code:
+`
+// utils
+import u from 'utils/functions';
+
+// validations
+import { validateEmpty } from 'utils/validations';
+
+// parser
+import { parseDate } from 'utils/parser';
       `,
         options: ruleOptions,
       },
