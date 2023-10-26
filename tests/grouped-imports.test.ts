@@ -41,6 +41,23 @@ import u from 'utils/functions';
       },
       {
         code: `
+import { parseDate } from 'utils/parser';
+import u from 'utils/functions';
+import { validateDate } from 'utils/validations';
+      `,
+        errors: [{ message: messages.noComments }],
+        options: ruleOptions,
+        output: `
+// parser
+import { parseDate } from 'utils/parser';
+// utils
+import u from 'utils/functions';
+// validations
+import { validateDate } from 'utils/validations';
+      `,
+      },
+      {
+        code: `
 import api from 'api/request';
 import select from 'selectors/main';
       `,
@@ -224,6 +241,8 @@ import select from 'selectors/main';
 // validations
 import { validateDate } from 'utils/validations';
 
+import { parseDate } from 'utils/parser';
+
 // utils
 import u from 'utils';
 
@@ -237,6 +256,8 @@ import { validateEmpty } from 'utils/validations';
 // validations
 import { validateDate } from 'utils/validations';
 import { validateEmpty } from 'utils/validations';
+
+import { parseDate } from 'utils/parser';
 
 // utils
 import u from 'utils';
