@@ -8,6 +8,7 @@ const ruleOptions = [
   {
     'utils': [{ path: 'utils' }],
     'validations': [{ path: 'utils/validations' }],
+    'parser': [{ path: 'utils/parser' }],
     'api, selectors': [{ path: 'api/' }, { path: 'selectors/' }],
     'css': [{ path: '.css' }],
     'images': [{ path: '.png' }, { path: '.jpeg' }],
@@ -36,6 +37,23 @@ import u from 'utils/functions';
 import s from 'styles';
 // utils
 import u from 'utils/functions';
+      `,
+      },
+      {
+        code: `
+import { parseDate } from 'utils/parser';
+import u from 'utils/functions';
+import { validateDate } from 'utils/validations';
+      `,
+        errors: [{ message: messages.noComments }],
+        options: ruleOptions,
+        output: `
+// parser
+import { parseDate } from 'utils/parser';
+// utils
+import u from 'utils/functions';
+// validations
+import { validateDate } from 'utils/validations';
       `,
       },
       {
@@ -223,6 +241,8 @@ import select from 'selectors/main';
 // validations
 import { validateDate } from 'utils/validations';
 
+import { parseDate } from 'utils/parser';
+
 // utils
 import u from 'utils';
 
@@ -236,6 +256,8 @@ import { validateEmpty } from 'utils/validations';
 // validations
 import { validateDate } from 'utils/validations';
 import { validateEmpty } from 'utils/validations';
+
+import { parseDate } from 'utils/parser';
 
 // utils
 import u from 'utils';
@@ -751,6 +773,20 @@ import s from 'components/Comp.css';
 import 'some.css';
 // eslint-disable some-rule
 import s from './Dashboard.css';
+      `,
+        options: ruleOptions,
+      },
+      {
+        code:
+`
+// utils
+import u from 'utils/functions';
+
+// validations
+import { validateEmpty } from 'utils/validations';
+
+// parser
+import { parseDate } from 'utils/parser';
       `,
         options: ruleOptions,
       },
