@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-grouped-import",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Group imports based on the import path",
   "main": "lib/index.js",
   "scripts": {
