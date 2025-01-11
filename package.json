@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-grouped-import",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Group imports based on the import path",
   "main": "lib/index.js",
   "scripts": {
@@ -25,14 +25,13 @@
   "repository": "github:kairome/eslint-plugin-grouped-import",
   "devDependencies": {
     "@types/eslint": "^4.16.6",
-    "@types/lodash": "^4.14.155",
     "@types/node": "^11.10.4",
     "@typescript-eslint/parser": "^1.4.2",
     "eslint": "^7.32.0",
     "jest": "^23.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "ts-jest": "^23.10.4",
-    "typescript": "~3.4.0"
+    "typescript": "^4.9.5"
   },
   "peerDependencies": {
     "eslint": "^5.0.0 || ^7.0.0"

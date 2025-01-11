@@ -96,7 +96,7 @@ const rule: Rule.RuleModule = {
                     return;
                   }
 
-                  return fixer.insertTextBefore(firstImport, `// ${commentKey}\n`)
+                  return fixer.insertTextBefore(firstImport, `// ${commentKey}\n`);
                 });
 
                 return (_.compact(fixes) as any);
@@ -283,15 +283,29 @@ const getImportsByGroup = (
 
       return !isCurrentNodeInGroupAndPath && _.some(groupPaths, (groupPath) => {
 
-        // check if there's a more specific path in option values
-        const similarOptionValue =
-          _.find(allOptionsPaths, optionValue => _.includes(optionValue, groupPath) && optionValue !== groupPath);
         const importValue = (node.source.value as string);
-        const regularImport = _.includes(importValue, groupPath);
-        const similarImport = _.includes(importValue, similarOptionValue) ||
-          (/\.\w/gi.test(importValue) && !/\.\w/gi.test(groupPath));
+        const groupedImport = _.includes(importValue, groupPath);
 
-        return regularImport && !similarImport;
+        // check if there's a more specific path in option values
+        const moreSpecificOptionPath =
+          _.find(allOptionsPaths, optionValue => _.includes(optionValue, groupPath) && optionValue !== groupPath && _.includes(importValue, optionValue));
+
+        const importWithExtension = (/\.\w/gi).test(importValue);
+        if (importWithExtension && groupedImport) {
+          // check if there's a more specific option path with extension
+          const moreSpecificExtensionPath = _.find(allOptionsPaths, (optionValue) => {
+            // if the option path has an extension, check if it corresponds to the import value extension
+            const isExtensionOptionPath = (/\.\w/gi).test(optionValue);
+            const notCurrentGroupPath = groupPath !== optionValue;
+            const importValInOptionPath = _.includes(importValue, optionValue);
+
+            return isExtensionOptionPath && notCurrentGroupPath && importValInOptionPath;
+          });
+
+          return groupedImport && !Boolean(moreSpecificExtensionPath) && !Boolean(moreSpecificOptionPath);
+        }
+
+        return groupedImport && !Boolean(moreSpecificOptionPath);
       });
     });
 
@@ -305,7 +319,7 @@ const getImportsByGroup = (
 const composeNewCodeLines = (
   lines: string[], lasCommentLine: number, lastImportLine: number
 ) => (newLines: string[], index: number, excludeLineNumbers: number[][]) => {
-  const sliceEnd = lastImportLine > lasCommentLine ? lastImportLine : lasCommentLine
+  const sliceEnd = lastImportLine > lasCommentLine ? lastImportLine : lasCommentLine;
   const importLines = lines.slice(0, sliceEnd);
 
   const filteredLines = _.filter(importLines, (l, i) => {
