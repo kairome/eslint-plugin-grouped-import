@@ -42,6 +42,52 @@ However, the rule checks if there exists a similar, more specific path in option
 If so, the import node will be sorted into the group with the more specific path.
 **Note**: imports with extensions, i.e. `.css`, will **ALWAYS** take precedence.
 
+If there is a relative option path in the config, the same precedence rule applies.
+Extension imports will be sorted into extension groups first, then the imports will be sorted according to the option paths.
+
+For example, with the config
+```json
+{
+  "relative": [
+    {
+      "path": "./"
+    }
+  ],
+  "landing": [
+    {
+      "path": "./landing"
+    }
+  ],
+  "images": [
+    {
+      "path": ".png"
+    }
+  ]
+}
+```
+
+and imports
+```js
+import Layout from './landing/Layout';
+import banner from './landing/banner.png';
+import data from './data.json';
+import landingData from './landing/data.json';
+```
+
+the plugin will group the imports thus:
+```js
+// landing
+import Layout from './landing/Layout';
+import landingData from './landing/data.json'
+
+// images
+import banner from './landing/banner.png';
+
+// relative
+import data from './data.json';
+;
+```
+
 The rule checks for 7 specific things which are described in the *Rule examples* section
 
 ## Rule examples

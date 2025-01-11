@@ -4,18 +4,18 @@ import rule, { ruleMessages } from '../src/grouped-imports';
 
 const tester = new RuleTester({ parserOptions: { ecmaVersion: 2015, sourceType: 'module' } });
 
-const ruleOptions = [
-  {
-    'utils': [{ path: 'utils' }],
-    'validations': [{ path: 'utils/validations' }],
-    'parser': [{ path: 'utils/parser' }],
-    'api, selectors': [{ path: 'api/' }, { path: 'selectors/' }],
-    'css': [{ path: '.css' }],
-    'images': [{ path: '.png' }, { path: '.jpeg' }],
-    'components': [{ path: 'components' }],
-    'types': [{ path: 'types' }],
-  }
-];
+const importsConfig = {
+  'utils': [{ path: 'utils' }],
+  'validations': [{ path: 'utils/validations' }],
+  'parser': [{ path: 'utils/parser' }],
+  'api, selectors': [{ path: 'api/' }, { path: 'selectors/' }],
+  'css': [{ path: '.css' }],
+  'images': [{ path: '.png' }, { path: '.jpeg' }],
+  'components': [{ path: 'components' }],
+  'types': [{ path: 'types' }],
+};
+
+const ruleOptions = [importsConfig];
 
 const messages = {
   ...ruleMessages,
@@ -796,6 +796,117 @@ import { parseDate } from 'utils/parser';
   });
 };
 
+const runRelativeImportGroupTest = () => {
+
+  const relativeRuleOptions = [
+    {
+      ...importsConfig,
+      'relative': [{ path: './' }],
+      'relative extended': [{ path: './landing' }],
+    },
+  ];
+
+  tester.run('Test relative import groups', rule, {
+    valid: [
+      {
+        code: `
+          // relative
+          import data from './data.json';
+          import Component from './Component.jsx'
+          import maxSpecifiers from './rules/max-specifiers';
+          
+          // css
+          import s from './Styles.css';
+        `,
+        options: relativeRuleOptions,
+      },
+      {
+        code: `
+          // css
+          import styles from 'css/Styles.css';
+          import s from './Styles.css';
+
+          // images
+          import image from 'images/image.png'
+          import banner from './banner.png';
+          import mainIcon from './landing/mainIcon.png';
+
+          // relative
+          import icon from './icons/icon.svg';
+          import newIcon from './newIcon.svg';
+          import data from './data.json';
+          
+          // relative extended
+          import config from './landing/config.ts';
+          import landingData from './landing/data.json';
+          import Layout from './landing/Layout';
+        `,
+        options: relativeRuleOptions,
+      },
+    ],
+    invalid: [
+      {
+        code: `
+// relative
+import data from './data.json';
+
+import img from './images/img.png';
+        `,
+        output: `
+// relative
+import data from './data.json';
+
+// images
+import img from './images/img.png';
+        `,
+        options: relativeRuleOptions,
+        errors: [{ message: messages.noGroupComment('images') }],
+      },
+      {
+        code: `
+import atom from 'store/atoms';
+import maxSpecifiers from './rules/max-specifiers';
+import data from './data.json';
+
+// css
+import s from './Styles.css';
+        `,
+        output: `
+import atom from 'store/atoms';
+// relative
+import maxSpecifiers from './rules/max-specifiers';
+import data from './data.json';
+
+// css
+import s from './Styles.css';
+        `,
+        options: relativeRuleOptions,
+        errors: [{ message: messages.noGroupComment('relative') }],
+      },
+      {
+        code: `
+// relative
+import data from './data.json';
+
+import Layout from './landing/Layout';
+import config from './landing/config.ts';
+        `,
+        output: `
+// relative
+import data from './data.json';
+
+// relative extended
+import Layout from './landing/Layout';
+import config from './landing/config.ts';
+        `,
+        options: relativeRuleOptions,
+        errors: [{ message: messages.noGroupComment('relative extended') }],
+      },
+    ],
+  });
+
+};
+
 (() => {
   runNoCommentsTest();
   runNoGroupCommentTest();
@@ -805,4 +916,5 @@ import { parseDate } from 'utils/parser';
   runEmptyLineAfterTest();
   runEmptyLineBeforeTest();
   runValidTest();
+  runRelativeImportGroupTest();
 })();
