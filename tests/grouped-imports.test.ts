@@ -4,7 +4,7 @@ import rule, { ruleMessages } from '../src/grouped-imports';
 
 const tester = new RuleTester({ 
   languageOptions: { 
-    ecmaVersion: 2015, 
+    ecmaVersion: 'latest', 
     sourceType: 'module' 
   } 
 });
