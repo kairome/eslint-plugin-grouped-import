@@ -24,7 +24,7 @@
   ],
   "repository": "github:kairome/eslint-plugin-grouped-import",
   "devDependencies": {
-    "@types/eslint": "^8.56.0",
+    "@types/eslint": "^9.6.1",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.0.0",
     "@typescript-eslint/parser": "^7.0.0",
