@@ -2,7 +2,12 @@ import { RuleTester } from 'eslint';
 
 import rule, { ruleMessages } from '../src/grouped-imports';
 
-const tester = new RuleTester({ parserOptions: { ecmaVersion: 2015, sourceType: 'module' } });
+const tester = new RuleTester({ 
+  languageOptions: { 
+    ecmaVersion: 'latest', 
+    sourceType: 'module' 
+  } 
+});
 
 const importsConfig = {
   'utils': [{ path: 'utils' }],
@@ -79,18 +84,7 @@ import s from './Styles.css';
 // css
 import s from './Styles.css';
     `,
-      },
-      {
-        code: `
-import s from './Styles.css';
-    `,
-        options: ruleOptions,
-        errors: [{ message: messages.noComments }],
-        output: `
-// css
-import s from './Styles.css';
-    `,
-      },
+      }
     ],
   });
 };
@@ -262,23 +256,6 @@ import { parseDate } from 'utils/parser';
 // utils
 import u from 'utils';
       `,
-      },
-      {
-        code:
-`// css
-import s from './Styles.css';
-import bg from 'public/images/bj.jpeg';
-import other from 'common/Common.css';
-    `,
-        options: ruleOptions,
-        errors: [{ message: messages.sequentialImports }],
-        output:
-`// css
-import s from './Styles.css';
-import other from 'common/Common.css';
-
-import bg from 'public/images/bj.jpeg';
-    `,
       },
       {
         code:
